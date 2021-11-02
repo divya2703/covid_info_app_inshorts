@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"os"
+	"strconv"
 
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -31,15 +32,34 @@ func ConnectDB() *mongo.Collection {
 
 // Configuration model
 type Configuration struct {
-	Port                    string
-	MongoDBConnectionString string
+	Port                     string
+	MongoDBConnectionString  string
+	RedisConnectionString    string
+	RedisConnectionPassword  string
+	RedisTTL                 int
+	LocationIQHost           string
+	LocationIQAccessToken    string
+	LocationIQResponseFormat string
 }
 
 // GetConfiguration method basically populate configuration information from .env and return Configuration model
 func GetConfiguration() Configuration {
+
+	ttl := os.Getenv("REDIS_TTL")
+	intTTL, err := strconv.Atoi(ttl)
+	if err != nil {
+		panic(err)
+	}
+
 	configuration := Configuration{
 		os.Getenv("PORT"),
-		os.Getenv("CONNECTION_STRING"),
+		os.Getenv("MONGODB_CONNECTION_STRING"),
+		os.Getenv("REDIS_CONNECTION_STRING"),
+		os.Getenv("REDIS_CONNECTION_PASSWORD"),
+		intTTL,
+		os.Getenv("LOCATION_IQ_HOST"),
+		os.Getenv("LOCATION_IQ_ACCESS_TOKEN"),
+		os.Getenv("LOCATION_IQ_RESPONSE_FORMAT"),
 	}
 	return configuration
 }

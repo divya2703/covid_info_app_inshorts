@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 
@@ -102,13 +103,12 @@ func (*controller) GetStateReportByStateName(response http.ResponseWriter, reque
 			return
 
 		}
-
+		log.Print("Returning response from db")
 		rCache.Set(stateName, stateReportFromDB)
 		response.WriteHeader(http.StatusOK)
 		json.NewEncoder(response).Encode(stateReportFromDB)
 	} else {
-		fmt.Println("From else")
-		fmt.Println(stateReport)
+		log.Print("Returning response from redis")
 		response.WriteHeader(http.StatusOK)
 		json.NewEncoder(response).Encode(stateReport)
 	}

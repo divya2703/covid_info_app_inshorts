@@ -37,14 +37,9 @@ import (
 	"github.com/joho/godotenv"
 )
 
-// func dummy(w http.ResponseWriter, r *http.Request) {
-// 	w.Header().Set("Content-Type", "application/json")
-// 	json.NewEncoder(w).Encode("Success")
-// }
-
 var (
 	repo       repository.Repository  = repository.NewMongoRepository()
-	redisCache cache.ICache           = cache.NewRedisCache("redis-12426.c264.ap-south-1-1.ec2.cloud.redislabs.com:12426")
+	redisCache cache.ICache           = cache.NewRedisCache()
 	serv       service.Service        = service.NewService(repo)
 	controller controllers.Controller = controllers.NewController(serv, redisCache)
 )
