@@ -91,19 +91,47 @@ info:
     3) Given latitude and longitude of a user, provide covid related information for the
     state the user belongs to.
   title: COVID_REPORT_APP
-  version: 0.0.1
+  version: 1.0.0
 paths:
   /geocode:
     get:
-      description: Get covid report of state the provided geo coordinates belong to
-      operationId: geocode
+      description: This will show active number of covid cases in a given state identified
+        by the geocode
+      operationId: report
+      parameters:
+      - in: query
+        name: lat
+        required: true
+        schema:
+          type: string
+        type: string
+      - in: query
+        name: long
+        required: true
+        schema:
+          type: string
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: StateReport
+          schema:
+            $ref: '#/definitions/StateReport'
+        "400":
+          description: ServiceError
+          schema:
+            $ref: '#/definitions/ServiceError'
+        default:
+          description: ""
+      schemes:
+      - http
   /states:
     get:
       description: This will show active number of covid cases in all states
-      operationId: users
+      operationId: report
       produces:
       - application/json
-      - application/x-protobuf
       responses:
         "200":
           description: StateReport
@@ -122,15 +150,19 @@ paths:
       summary: Lists state wise covid report
   /states/{state}:
     get:
-      description: This will show active number of covid cases in a given states
-      operationId: states
+      description: This will show active number of covid cases in a given state
+      operationId: report
+      parameters:
+      - in: path
+        name: state
+        required: true
+        schema:
+          enum:
+          - Assam
+          - Sikkim
+          type: string
       produces:
       - application/json
-      - application/x-protobuf
-      parameters:
-      - name: state
-        in: path
-        unique: true
       responses:
         "200":
           description: StateReport
