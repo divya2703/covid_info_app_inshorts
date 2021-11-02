@@ -1,0 +1,151 @@
+basePath: /api
+consumes:
+- application/json
+definitions:
+  AddressInfo:
+    description: 'swagger: model'
+    properties:
+      country:
+        description: name of the country
+        type: string
+        x-go-name: Country
+      country_code:
+        description: country code for the country
+        type: string
+        x-go-name: Country_code
+      county:
+        description: name of the county
+        type: string
+        x-go-name: County
+      postcode:
+        description: postcode of the location
+        type: string
+        x-go-name: Postcode
+      state:
+        description: name of the district
+        type: string
+        x-go-name: State
+      state_district:
+        description: name of the state_district
+        type: string
+        x-go-name: State_district
+      village:
+        description: name of the village
+        type: string
+        x-go-name: Village
+    type: object
+    x-go-package: github.com/divya2703/covid-tracker-rest-api/entity
+  LocationInfo:
+    properties:
+      address:
+        $ref: '#/definitions/AddressInfo'
+      lat:
+        description: latitude of the location coordinates
+        type: string
+        x-go-name: Lat
+      lon:
+        description: longitude of the location coordinates
+        type: string
+        x-go-name: Lon
+    type: object
+    x-go-package: github.com/divya2703/covid-tracker-rest-api/entity
+  ServiceError:
+    properties:
+      message:
+        description: business error message
+        type: string
+        x-go-name: ErrorMessage
+      status:
+        description: status code of the error
+        format: int64
+        type: integer
+        x-go-name: StatusCode
+    type: object
+    x-go-package: github.com/divya2703/covid-tracker-rest-api/errors
+  StateReport:
+    properties:
+      Active:
+        description: number of active covid cases in that state
+        format: int64
+        type: integer
+      Last_Updated_Time:
+        description: last updated time of the report
+        type: string
+      State:
+        description: name of the state
+        type: string
+    type: object
+    x-go-package: github.com/divya2703/covid-tracker-rest-api/entity
+host: covid-info-india-tracker.herokuapp.com
+info:
+  contact:
+    email: divya27@gmail.com
+    name: Divya Kumari
+  description: |-
+    This application provides 3 main APIs,
+
+    1) Get statewise covid report data for all the states of India
+
+    2) Get covid report data for a given state
+
+    3) Given latitude and longitude of a user, provide covid related information for the
+    state the user belongs to.
+  title: COVID_REPORT_APP
+  version: 0.0.1
+paths:
+  /geocode:
+    get:
+      description: Get covid report of state the provided geo coordinates belong to
+      operationId: geocode
+  /states:
+    get:
+      description: This will show active number of covid cases in all states
+      operationId: users
+      produces:
+      - application/json
+      - application/x-protobuf
+      responses:
+        "200":
+          description: StateReport
+          schema:
+            items:
+              $ref: '#/definitions/StateReport'
+            type: array
+        "400":
+          description: ServiceError
+          schema:
+            $ref: '#/definitions/ServiceError'
+        default:
+          description: ""
+      schemes:
+      - http
+      summary: Lists state wise covid report
+  /states/{state}:
+    get:
+      description: This will show active number of covid cases in a given states
+      operationId: states
+      produces:
+      - application/json
+      - application/x-protobuf
+      parameters:
+      - name: state
+        in: path
+        unique: true
+      responses:
+        "200":
+          description: StateReport
+          schema:
+            $ref: '#/definitions/StateReport'
+        "400":
+          description: ServiceError
+          schema:
+            $ref: '#/definitions/ServiceError'
+        default:
+          description: ""
+      schemes:
+      - http
+produces:
+- application/json
+schemes:
+- http
+swagger: "2.0"
