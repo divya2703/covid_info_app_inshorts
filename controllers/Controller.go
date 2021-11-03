@@ -167,8 +167,13 @@ func (*controller) GetStateReportByCoordinates(response http.ResponseWriter, req
 		fmt.Println(err)
 		return
 	}
-	var locationInfo entity.LocationInfo
+	var locationInfo *entity.LocationInfo
 	err = json.Unmarshal(body, &locationInfo)
+	if locationInfo == nil {
+		response.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(response).Encode(errors.ServiceError{ErrorMessage: "Coordinates not supported (Use India specific geocodes only)", StatusCode: http.StatusBadRequest})
+		return
+	}
 	stateName := locationInfo.Address.State
 	countryCode := locationInfo.Address.Country_code
 	log.Print("Geocode api call for country " + countryCode)
