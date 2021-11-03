@@ -9,7 +9,7 @@
 // 3) Given latitude and longitude of a user, provide covid related information for the
 //    state the user belongs to.
 //
-//     Schemes: http
+//     Schemes: https
 //     Host: covid-tracker-rest-api.herokuapp.com
 //     BasePath: /api
 //     Version: 1.0.0
