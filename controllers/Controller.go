@@ -96,7 +96,7 @@ func (*controller) GetStateReportByStateName(response http.ResponseWriter, reque
 
 	stateName, _ := params["state"]
 	var stateReport *entity.StateReport = rCache.Get(stateName)
-	fmt.Println(stateReport)
+	//fmt.Println(stateReport)
 	if stateReport == nil {
 
 		stateReportFromDB, err := serv.FindByName(stateName)
@@ -190,13 +190,25 @@ func (*controller) GetStateReportByCoordinates(response http.ResponseWriter, req
 		json.NewEncoder(response).Encode(errors.ServiceError{ErrorMessage: "Coordinates not supported (Use India specific geocodes only)", StatusCode: http.StatusBadRequest})
 		return
 	}
-	stateReport, err := serv.FindByName(stateName)
-	if err != nil {
-		response.WriteHeader(http.StatusInternalServerError)
-		json.NewEncoder(response).Encode(errors.ServiceError{ErrorMessage: "Error getting the reports", StatusCode: http.StatusInternalServerError})
-		return
 
+	var stateReport *entity.StateReport = rCache.Get(stateName)
+	if stateReport == nil {
+
+		stateReportFromDB, err := serv.FindByName(stateName)
+		if err != nil {
+			response.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(response).Encode(errors.ServiceError{ErrorMessage: "Error getting the reports", StatusCode: http.StatusInternalServerError})
+			return
+
+		}
+		log.Print("Returning response from db")
+		rCache.Set(stateName, stateReportFromDB)
+		response.WriteHeader(http.StatusOK)
+		json.NewEncoder(response).Encode(stateReportFromDB)
+	} else {
+		log.Print("Returning response from redis")
+		response.WriteHeader(http.StatusOK)
+		json.NewEncoder(response).Encode(stateReport)
 	}
-	json.NewEncoder(response).Encode(stateReport)
 
 }
