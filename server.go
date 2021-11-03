@@ -46,11 +46,6 @@ var (
 
 func main() {
 	r := mux.NewRouter()
-	// err := godotenv.Load("./.env")
-
-	// if err != nil {
-	// 	log.Fatalf("Error loading .env file")
-	// }
 
 	//Test snippet for ttl
 	// fmt.Println(redisCache.Get("Sahib"))

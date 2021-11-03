@@ -11,11 +11,7 @@ import (
 )
 
 func ConnectDB() *mongo.Collection {
-	// err := godotenv.Load("./.env")
 
-	// if err != nil {
-	// 	log.Fatalf("Error loading .env file")
-	// }
 	config := GetConfiguration()
 	clientOptions := options.Client().ApplyURI(config.MongoDBConnectionString)
 	client, err := mongo.Connect(context.TODO(), clientOptions)
@@ -43,12 +39,6 @@ type Configuration struct {
 
 // GetConfiguration method basically populate configuration information from .env and return Configuration model
 func GetConfiguration() Configuration {
-
-	// err := godotenv.Load("./.env")
-
-	// if err != nil {
-	// 	log.Fatalf("Error loading .env file")
-	// }
 
 	ttl := os.Getenv("REDIS_TTL")
 	intTTL, err := strconv.Atoi(ttl)

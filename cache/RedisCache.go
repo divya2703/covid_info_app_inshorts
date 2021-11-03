@@ -16,11 +16,7 @@ type redisCache struct {
 }
 
 func NewRedisCache(RedisConnectionString string) ICache {
-	// err := godotenv.Load("./.env")
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// config := db.GetConfiguration()
+
 	log.Print("Setting host and password for redis")
 	return &redisCache{
 		host:     RedisConnectionString,
