@@ -173,37 +173,30 @@ func (*controller) GetStateReportByCoordinates(response http.ResponseWriter, req
 		fmt.Println(err)
 		return
 	}
-	var locationInfo *entity.LocationInfo
-	err = json.Unmarshal(body, locationInfo)
-	if locationInfo == nil {
+	var locationInfo entity.LocationInfo
+	err = json.Unmarshal(body, &locationInfo)
+	if err != nil {
+		response.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(response).Encode(errors.ServiceError{ErrorMessage: "Error in fetching addrress details", StatusCode: http.StatusInternalServerError})
+		return
+	}
+
+	stateName := locationInfo.Address.State
+	country := locationInfo.Address.Country
+	log.Print("Geocode api call for country " + country)
+	if country != "India" {
+
 		response.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(response).Encode(errors.ServiceError{ErrorMessage: "Coordinates not supported (Use India specific geocodes only)", StatusCode: http.StatusBadRequest})
 		return
-	} else {
-
-		stateName := locationInfo.Address.State
-		country := locationInfo.Address.Country
-		log.Print("Geocode api call for country " + country)
-		if country != "India" {
-
-			response.WriteHeader(http.StatusBadRequest)
-			json.NewEncoder(response).Encode(errors.ServiceError{ErrorMessage: "Coordinates not supported (Use India specific geocodes only)", StatusCode: http.StatusBadRequest})
-			return
-
-		} else {
-			stateReport, err := serv.FindByName(stateName)
-			if err != nil {
-				response.WriteHeader(http.StatusInternalServerError)
-				json.NewEncoder(response).Encode(errors.ServiceError{ErrorMessage: "Error getting the reports", StatusCode: http.StatusInternalServerError})
-				return
-
-			}
-
-			json.NewEncoder(response).Encode(stateReport)
-
-			return
-		}
+	}
+	stateReport, err := serv.FindByName(stateName)
+	if err != nil {
+		response.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(response).Encode(errors.ServiceError{ErrorMessage: "Error getting the reports", StatusCode: http.StatusInternalServerError})
+		return
 
 	}
+	json.NewEncoder(response).Encode(stateReport)
 
 }
