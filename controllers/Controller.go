@@ -171,7 +171,7 @@ func (*controller) GetStateReportByCoordinates(response http.ResponseWriter, req
 	err = json.Unmarshal(body, &locationInfo)
 	stateName := locationInfo.Address.State
 	countryCode := locationInfo.Address.Country_code
-
+	log.Print("Geocode api call for country " + countryCode)
 	if countryCode != "IN" {
 
 		response.WriteHeader(http.StatusBadRequest)
