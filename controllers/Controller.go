@@ -170,6 +170,15 @@ func (*controller) GetStateReportByCoordinates(response http.ResponseWriter, req
 	var locationInfo entity.LocationInfo
 	err = json.Unmarshal(body, &locationInfo)
 	stateName := locationInfo.Address.State
+	countryCode := locationInfo.Address.Country_code
+
+	if countryCode != "IN" {
+
+		response.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(response).Encode(errors.ServiceError{ErrorMessage: "Coordinates not supported (Use India specific geocodes only)", StatusCode: http.StatusBadRequest})
+		return
+
+	}
 	stateReport, err := serv.FindByName(stateName)
 	if err != nil {
 		response.WriteHeader(http.StatusInternalServerError)
@@ -177,11 +186,7 @@ func (*controller) GetStateReportByCoordinates(response http.ResponseWriter, req
 		return
 
 	}
-	if stateReport == nil {
-		response.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(response).Encode(errors.ServiceError{ErrorMessage: "Coordinates not supported (Use India specific geocodes only)", StatusCode: http.StatusBadRequest})
-		return
-	}
+
 	json.NewEncoder(response).Encode(stateReport)
 
 }
