@@ -168,7 +168,7 @@ func (*controller) GetStateReportByCoordinates(response http.ResponseWriter, req
 		return
 	}
 	var locationInfo *entity.LocationInfo
-	err = json.Unmarshal(body, &locationInfo)
+	err = json.Unmarshal(body, locationInfo)
 	if locationInfo == nil {
 		response.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(response).Encode(errors.ServiceError{ErrorMessage: "Coordinates not supported (Use India specific geocodes only)", StatusCode: http.StatusBadRequest})
