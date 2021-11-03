@@ -70,6 +70,9 @@ func (*controller) GetStateReports(response http.ResponseWriter, request *http.R
 func (*controller) GetStateReportByStateName(response http.ResponseWriter, request *http.Request) {
 
 	// swagger:route GET /states/{state} report getStateReportByStateName
+	//
+	// Covid report of a specific state
+	//
 	// This will show active number of covid cases in a given state
 	//
 	//     Produces:
@@ -117,6 +120,9 @@ func (*controller) GetStateReportByStateName(response http.ResponseWriter, reque
 func (*controller) GetStateReportByCoordinates(response http.ResponseWriter, request *http.Request) {
 
 	// swagger:route GET /geocode report getCovidReportByCoordinates
+	//
+	// Show covid report of a state by geocode
+	//
 	// This will show active number of covid cases in a given state identified by the geocode
 	//
 	//     Produces:

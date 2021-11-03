@@ -126,6 +126,7 @@ paths:
           description: ""
       schemes:
       - https
+      summary: Show covid report of a state by geocode
       tags:
       - report
   /states:
@@ -181,6 +182,7 @@ paths:
           description: ""
       schemes:
       - https
+      summary: Covid report of a specific state
       tags:
       - report
 produces:
