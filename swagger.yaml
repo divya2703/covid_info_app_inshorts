@@ -97,7 +97,7 @@ paths:
     get:
       description: This will show active number of covid cases in a given state identified
         by the geocode
-      operationId: report
+      operationId: getCovidReportByCoordinates
       parameters:
       - in: query
         name: lat
@@ -126,10 +126,12 @@ paths:
           description: ""
       schemes:
       - https
+      tags:
+      - report
   /states:
     get:
       description: This will show active number of covid cases in all states
-      operationId: report
+      operationId: getStateReports
       produces:
       - application/json
       responses:
@@ -148,10 +150,12 @@ paths:
       schemes:
       - https
       summary: Lists state wise covid report
+      tags:
+      - report
   /states/{state}:
     get:
       description: This will show active number of covid cases in a given state
-      operationId: report
+      operationId: getStateReportByStateName
       parameters:
       - in: path
         name: state
@@ -177,6 +181,8 @@ paths:
           description: ""
       schemes:
       - https
+      tags:
+      - report
 produces:
 - application/json
 schemes:

@@ -37,7 +37,7 @@ func NewController(service service.Service, cache cache.ICache) Controller {
 
 func (*controller) GetStateReports(response http.ResponseWriter, request *http.Request) {
 
-	// swagger:route GET /states report
+	// swagger:route GET /states report getStateReports
 	//
 	// Lists state wise covid report
 	//
@@ -69,7 +69,7 @@ func (*controller) GetStateReports(response http.ResponseWriter, request *http.R
 }
 func (*controller) GetStateReportByStateName(response http.ResponseWriter, request *http.Request) {
 
-	// swagger:route GET /states/{state} report
+	// swagger:route GET /states/{state} report getStateReportByStateName
 	// This will show active number of covid cases in a given state
 	//
 	//     Produces:
@@ -116,7 +116,7 @@ func (*controller) GetStateReportByStateName(response http.ResponseWriter, reque
 }
 func (*controller) GetStateReportByCoordinates(response http.ResponseWriter, request *http.Request) {
 
-	// swagger:route GET /geocode report
+	// swagger:route GET /geocode report getCovidReportByCoordinates
 	// This will show active number of covid cases in a given state identified by the geocode
 	//
 	//     Produces:
