@@ -175,9 +175,9 @@ func (*controller) GetStateReportByCoordinates(response http.ResponseWriter, req
 		return
 	}
 	stateName := locationInfo.Address.State
-	countryCode := locationInfo.Address.Country_code
-	log.Print("Geocode api call for country " + countryCode)
-	if countryCode != "IN" {
+	country := locationInfo.Address.Country
+	log.Print("Geocode api call for country " + country)
+	if country != "India" {
 
 		response.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(response).Encode(errors.ServiceError{ErrorMessage: "Coordinates not supported (Use India specific geocodes only)", StatusCode: http.StatusBadRequest})
