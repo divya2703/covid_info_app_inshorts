@@ -48,21 +48,16 @@ info:
 paths:
   /geocode:
     get:
-      description: This will show active number of covid cases in a given state identified
-        by the geocode
+      description: This will show active number of covid cases in a given state identified by the geocode
       operationId: getCovidReportByCoordinates
       parameters:
       - in: query
         name: lat
         required: true
-        schema:
-          type: string
         type: string
       - in: query
         name: long
         required: true
-        schema:
-          type: string
         type: string
       produces:
       - application/json
@@ -114,11 +109,6 @@ paths:
       - in: path
         name: state
         required: true
-        schema:
-          enum:
-          - Assam
-          - Sikkim
-          type: string
         type: string
       produces:
       - application/json
