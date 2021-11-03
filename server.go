@@ -10,7 +10,7 @@
 //    state the user belongs to.
 //
 //     Schemes: http
-//     Host: covid-info-india-tracker.herokuapp.com
+//     Host: covid-tracker-rest-api.herokuapp.com
 //     BasePath: /api
 //     Version: 1.0.0
 //     Contact: Divya Kumari<divya27@gmail.com>
