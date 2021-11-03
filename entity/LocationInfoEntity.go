@@ -1,6 +1,5 @@
 package entity
 
-// swagger:model LocationInfo
 type LocationInfo struct {
 
 	//latitude of the location coordinates
