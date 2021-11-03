@@ -34,23 +34,23 @@ import (
 	"github.com/divya2703/covid-tracker-rest-api/repository"
 	"github.com/divya2703/covid-tracker-rest-api/service"
 	"github.com/gorilla/mux"
-	"github.com/joho/godotenv"
 )
 
 var (
+	//config     db.Configuration       = db.GetConfiguration()
 	repo       repository.Repository  = repository.NewMongoRepository()
-	redisCache cache.ICache           = cache.NewRedisCache()
+	redisCache cache.ICache           = cache.NewRedisCache("redis-12426.c264.ap-south-1-1.ec2.cloud.redislabs.com:12426")
 	serv       service.Service        = service.NewService(repo)
 	controller controllers.Controller = controllers.NewController(serv, redisCache)
 )
 
 func main() {
 	r := mux.NewRouter()
-	err := godotenv.Load("./.env")
+	// err := godotenv.Load("./.env")
 
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
+	// if err != nil {
+	// 	log.Fatalf("Error loading .env file")
+	// }
 
 	//Test snippet for ttl
 	// fmt.Println(redisCache.Get("Sahib"))

@@ -5,10 +5,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/divya2703/covid-tracker-rest-api/db"
 	"github.com/divya2703/covid-tracker-rest-api/entity"
 	"github.com/go-redis/redis/v7"
-	"github.com/joho/godotenv"
 )
 
 type redisCache struct {
@@ -17,17 +15,16 @@ type redisCache struct {
 	expires  time.Duration
 }
 
-func NewRedisCache() ICache {
-	err := godotenv.Load("./.env")
-	if err != nil {
-		panic(err)
-	}
-	config := db.GetConfiguration()
+func NewRedisCache(RedisConnectionString string) ICache {
+	// err := godotenv.Load("./.env")
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// config := db.GetConfiguration()
 	log.Print("Setting host and password for redis")
 	return &redisCache{
-		host:     config.RedisConnectionString,
-		password: config.RedisConnectionPassword,
-		expires:  time.Duration(config.RedisTTL),
+		host:     RedisConnectionString,
+		password: "DJgPUVnk46QOrozQK31iDSahumyUn5JW",
 	}
 
 }
@@ -49,7 +46,7 @@ func (cache *redisCache) Set(key string, stateReport *entity.StateReport) {
 		panic(err)
 	}
 	//log.Print("Setting expiry of keys to " + cache.expires.String() + " minutes")
-	client.Set(key, json, 300*time.Second)
+	client.Set(key, json, 1800*time.Second)
 }
 
 func (cache *redisCache) Get(key string) *entity.StateReport {
