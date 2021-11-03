@@ -173,25 +173,31 @@ func (*controller) GetStateReportByCoordinates(response http.ResponseWriter, req
 		response.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(response).Encode(errors.ServiceError{ErrorMessage: "Coordinates not supported (Use India specific geocodes only)", StatusCode: http.StatusBadRequest})
 		return
+	} else {
+
+		stateName := locationInfo.Address.State
+		country := locationInfo.Address.Country
+		log.Print("Geocode api call for country " + country)
+		if country != "India" {
+
+			response.WriteHeader(http.StatusBadRequest)
+			json.NewEncoder(response).Encode(errors.ServiceError{ErrorMessage: "Coordinates not supported (Use India specific geocodes only)", StatusCode: http.StatusBadRequest})
+			return
+
+		} else {
+			stateReport, err := serv.FindByName(stateName)
+			if err != nil {
+				response.WriteHeader(http.StatusInternalServerError)
+				json.NewEncoder(response).Encode(errors.ServiceError{ErrorMessage: "Error getting the reports", StatusCode: http.StatusInternalServerError})
+				return
+
+			}
+
+			json.NewEncoder(response).Encode(stateReport)
+
+			return
+		}
+
 	}
-	stateName := locationInfo.Address.State
-	country := locationInfo.Address.Country
-	log.Print("Geocode api call for country " + country)
-	if country != "India" {
-
-		response.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(response).Encode(errors.ServiceError{ErrorMessage: "Coordinates not supported (Use India specific geocodes only)", StatusCode: http.StatusBadRequest})
-		return
-
-	}
-	stateReport, err := serv.FindByName(stateName)
-	if err != nil {
-		response.WriteHeader(http.StatusInternalServerError)
-		json.NewEncoder(response).Encode(errors.ServiceError{ErrorMessage: "Error getting the reports", StatusCode: http.StatusInternalServerError})
-		return
-
-	}
-
-	json.NewEncoder(response).Encode(stateReport)
 
 }
