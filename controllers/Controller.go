@@ -46,7 +46,7 @@ func (*controller) GetStateReports(response http.ResponseWriter, request *http.R
 	//     Produces:
 	//     - application/json
 	//
-	//     Schemes: http
+	//     Schemes: https
 	//
 	//     Deprecated: false
 	//     Responses:
@@ -75,7 +75,7 @@ func (*controller) GetStateReportByStateName(response http.ResponseWriter, reque
 	//     Produces:
 	//     - application/json
 	//
-	//     Schemes: http
+	//     Schemes: https
 	//     Parameters:
 	//	   		+ name: state
 	//            enum: Assam, Sikkim
@@ -122,7 +122,7 @@ func (*controller) GetStateReportByCoordinates(response http.ResponseWriter, req
 	//     Produces:
 	//     - application/json
 	//
-	//     Schemes: http
+	//     Schemes: https
 	//	   Parameters:
 	//			+ name: lat
 	//			  in: query
