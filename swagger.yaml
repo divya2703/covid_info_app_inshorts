@@ -76,7 +76,7 @@ definitions:
         type: string
     type: object
     x-go-package: github.com/divya2703/covid-tracker-rest-api/entity
-host: covid-info-india-tracker.herokuapp.com
+host: covid-tracker-rest-api.herokuapp.com
 info:
   contact:
     email: divya27@gmail.com
@@ -125,7 +125,7 @@ paths:
         default:
           description: ""
       schemes:
-      - http
+      - https
   /states:
     get:
       description: This will show active number of covid cases in all states
@@ -146,7 +146,7 @@ paths:
         default:
           description: ""
       schemes:
-      - http
+      - https
       summary: Lists state wise covid report
   /states/{state}:
     get:
@@ -161,6 +161,7 @@ paths:
           - Assam
           - Sikkim
           type: string
+        type: string
       produces:
       - application/json
       responses:
@@ -175,9 +176,9 @@ paths:
         default:
           description: ""
       schemes:
-      - http
+      - https
 produces:
 - application/json
 schemes:
-- http
+- https
 swagger: "2.0"
