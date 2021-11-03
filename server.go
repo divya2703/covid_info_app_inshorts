@@ -34,6 +34,7 @@ import (
 	"github.com/divya2703/covid-tracker-rest-api/repository"
 	"github.com/divya2703/covid-tracker-rest-api/service"
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 )
 
 var (
@@ -63,6 +64,12 @@ func main() {
 	r.HandleFunc("/api/geocode", controller.GetStateReportByCoordinates).Methods("GET")
 	r.HandleFunc("/api/states/{state}", controller.GetStateReportByStateName).Methods("GET")
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./public/")))
+
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowCredentials: true,
+	})
+	handler := c.Handler(r)
 	PORT := ":" + os.Getenv("PORT")
-	log.Fatal(http.ListenAndServe(PORT, r))
+	log.Fatal(http.ListenAndServe(PORT, handler))
 }
