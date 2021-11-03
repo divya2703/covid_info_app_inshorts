@@ -1,6 +1,5 @@
 package entity
 
-//swagger: model
 type AddressInfo struct {
 
 	//name of the village

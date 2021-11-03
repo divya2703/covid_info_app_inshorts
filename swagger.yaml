@@ -2,53 +2,6 @@ basePath: /api
 consumes:
 - application/json
 definitions:
-  AddressInfo:
-    description: 'swagger: model'
-    properties:
-      country:
-        description: name of the country
-        type: string
-        x-go-name: Country
-      country_code:
-        description: country code for the country
-        type: string
-        x-go-name: Country_code
-      county:
-        description: name of the county
-        type: string
-        x-go-name: County
-      postcode:
-        description: postcode of the location
-        type: string
-        x-go-name: Postcode
-      state:
-        description: name of the district
-        type: string
-        x-go-name: State
-      state_district:
-        description: name of the state_district
-        type: string
-        x-go-name: State_district
-      village:
-        description: name of the village
-        type: string
-        x-go-name: Village
-    type: object
-    x-go-package: github.com/divya2703/covid-tracker-rest-api/entity
-  LocationInfo:
-    properties:
-      address:
-        $ref: '#/definitions/AddressInfo'
-      lat:
-        description: latitude of the location coordinates
-        type: string
-        x-go-name: Lat
-      lon:
-        description: longitude of the location coordinates
-        type: string
-        x-go-name: Lon
-    type: object
-    x-go-package: github.com/divya2703/covid-tracker-rest-api/entity
   ServiceError:
     properties:
       message:
