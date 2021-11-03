@@ -54,6 +54,7 @@ func (*controller) GetStateReports(response http.ResponseWriter, request *http.R
 	//       200: []StateReport
 	//       400: ServiceError
 
+	log.Println("GetStateReports API call")
 	response.Header().Set("Content-Type", "application/json")
 	response.Header().Set("Access-Control-Allow-Origin", "*")
 
@@ -91,6 +92,7 @@ func (*controller) GetStateReportByStateName(response http.ResponseWriter, reque
 	//       200: StateReport
 	//       400: ServiceError
 
+	log.Println("GetStateReportByStateName API call")
 	response.Header().Set("Content-Type", "application/json")
 	var params = mux.Vars(request)
 
@@ -106,12 +108,12 @@ func (*controller) GetStateReportByStateName(response http.ResponseWriter, reque
 			return
 
 		}
-		log.Print("Returning response from db")
+		log.Println("Returning response from db")
 		rCache.Set(stateName, stateReportFromDB)
 		response.WriteHeader(http.StatusOK)
 		json.NewEncoder(response).Encode(stateReportFromDB)
 	} else {
-		log.Print("Returning response from redis")
+		log.Println("Returning response from redis")
 		response.WriteHeader(http.StatusOK)
 		json.NewEncoder(response).Encode(stateReport)
 	}
@@ -143,7 +145,7 @@ func (*controller) GetStateReportByCoordinates(response http.ResponseWriter, req
 	//       default:
 	//       200: StateReport
 	//       400: ServiceError
-
+	log.Println("GetStateReportByCoordinates API call")
 	response.Header().Set("Content-Type", "application/json")
 	params := request.URL.Query()
 	params.Set("access_token", os.Getenv("LOCATION_IQ_ACCESS_TOKEN"))
@@ -183,7 +185,7 @@ func (*controller) GetStateReportByCoordinates(response http.ResponseWriter, req
 
 	stateName := locationInfo.Address.State
 	country := locationInfo.Address.Country
-	log.Print("Geocode api call for country " + country)
+	log.Println("Geocode api call for country " + country)
 	if country != "India" {
 
 		response.WriteHeader(http.StatusBadRequest)
@@ -201,12 +203,12 @@ func (*controller) GetStateReportByCoordinates(response http.ResponseWriter, req
 			return
 
 		}
-		log.Print("Returning response from db")
+		log.Println("Returning response from db")
 		rCache.Set(stateName, stateReportFromDB)
 		response.WriteHeader(http.StatusOK)
 		json.NewEncoder(response).Encode(stateReportFromDB)
 	} else {
-		log.Print("Returning response from redis")
+		log.Println("Returning response from redis")
 		response.WriteHeader(http.StatusOK)
 		json.NewEncoder(response).Encode(stateReport)
 	}
